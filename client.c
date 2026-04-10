@@ -25,17 +25,18 @@ typedef int socket_t;
 
 int main(void)
 {
-	WOLFSSL_CTX* ctx = NULL;
-	WOLFSSL* ssl = NULL;
+	WOLFSSL_CTX *ctx = NULL;
+	WOLFSSL *ssl = NULL;
 	socket_t sockfd = INVALID_SOCKET;
 	struct sockaddr_in servAddr;
 	char buff[MSG_SIZE];
-	const char* msg = "Hello from TLS 1.3 client!";
+	const char *msg = "Hello from TLS 1.3 client!";
 	int ret;
 
 #ifdef _WIN32
 	WSADATA wsaData;
-	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
+	{
 		fprintf(stderr, "WSAStartup failed\n");
 		return EXIT_FAILURE;
 	}
@@ -46,22 +47,24 @@ int main(void)
 
 	/*Create context - TLS 1.3 client only*/
 	ctx = wolfSSL_CTX_new(wolfTLSv1_3_client_method());
-	if (ctx == NULL) {
+	if (ctx == NULL)
+	{
 		fprintf(stderr, "wolfSSL_CTX_new failed\n");
 		ret = EXIT_FAILURE;
 		goto cleanup;
 	}
 
-	int groups[] = { WOLFSSL_SECP256R1MLKEM768 };
-	if (wolfSSL_CTX_set_groups(ctx, groups, 1) != SSL_SUCCESS) {
+	int groups[] = {WOLFSSL_SECP256R1MLKEM768};
+	if (wolfSSL_CTX_set_groups(ctx, groups, 1) != SSL_SUCCESS)
+	{
 		fprintf(stderr, "Failed to set hybrid KEM group\n");
 		ret = EXIT_FAILURE;
 		goto cleanup;
 	}
 
 	/*Load CA cert to verify server*/
-	if (wolfSSL_CTX_load_verify_locations(ctx, CA_CERT_FILE, NULL)
-		!= SSL_SUCCESS) {
+	if (wolfSSL_CTX_load_verify_locations(ctx, CA_CERT_FILE, NULL) != SSL_SUCCESS)
+	{
 		fprintf(stderr, "Failed to load CA cert: %s\n", CA_CERT_FILE);
 		ret = EXIT_FAILURE;
 		goto cleanup;
@@ -74,13 +77,15 @@ int main(void)
 	inet_pton(AF_INET, "127.0.0.1", &servAddr.sin_addr);
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	if (sockfd == INVALID_SOCKET) {
+	if (sockfd == INVALID_SOCKET)
+	{
 		fprintf(stderr, "socket() failed\n");
 		ret = EXIT_FAILURE;
 		goto cleanup;
 	}
 
-	if (connect(sockfd, (struct sockaddr*)&servAddr, sizeof(servAddr)) != 0) {
+	if (connect(sockfd, (struct sockaddr *)&servAddr, sizeof(servAddr)) != 0)
+	{
 		fprintf(stderr, "TCP connect() failed - is the server running?\n");
 		ret = EXIT_FAILURE;
 		goto cleanup;
@@ -90,7 +95,8 @@ int main(void)
 
 	/*TLS handshake*/
 	ssl = wolfSSL_new(ctx);
-	if (ssl == NULL) {
+	if (ssl == NULL)
+	{
 		fprintf(stderr, "wolfSSL_new failed\n");
 		ret = EXIT_FAILURE;
 		goto cleanup;
@@ -99,9 +105,10 @@ int main(void)
 	wolfSSL_set_fd(ssl, (int)sockfd);
 
 	ret = wolfSSL_connect(ssl);
-	if (ret != SSL_SUCCESS) {
+	if (ret != SSL_SUCCESS)
+	{
 		fprintf(stderr, "TLS handshake failed, error: %d\n",
-			wolfSSL_get_error(ssl, ret));
+				wolfSSL_get_error(ssl, ret));
 		ret = EXIT_FAILURE;
 		goto cleanup;
 	}
@@ -117,20 +124,25 @@ int main(void)
 	/*Read reply from server*/
 	memset(buff, 0, sizeof(buff));
 	ret = wolfSSL_read(ssl, buff, sizeof(buff) - 1);
-	if (ret > 0) {
+	if (ret > 0)
+	{
 		printf("Server says: %s\n", buff);
 	}
-	else {
+	else
+	{
 		fprintf(stderr, "wolfSSL_read failed, error: %d\n",
-			wolfSSL_get_error(ssl, ret));
+				wolfSSL_get_error(ssl, ret));
 	}
 
 	ret = 0;
 
 cleanup:
-	if (ssl)                      wolfSSL_free(ssl);
-	if (ctx)                      wolfSSL_CTX_free(ctx);
-	if (sockfd != INVALID_SOCKET) CLOSE_SOCKET(sockfd);
+	if (ssl)
+		wolfSSL_free(ssl);
+	if (ctx)
+		wolfSSL_CTX_free(ctx);
+	if (sockfd != INVALID_SOCKET)
+		CLOSE_SOCKET(sockfd);
 	wolfSSL_Cleanup();
 
 #ifdef _WIN32

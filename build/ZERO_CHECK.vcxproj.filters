@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\albie\source\repos\wolfssl-tls13-hybrid\build\CMakeFiles\93c276dc1bc9a55ccc2050fa3842196a\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{96CE3A3F-92D3-3F11-9988-CA738262FA1D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
