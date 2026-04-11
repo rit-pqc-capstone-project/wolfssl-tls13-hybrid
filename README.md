@@ -198,10 +198,9 @@ wolfssl-tls13-hybrid/
 │   ├── ca-key.pem
 │   ├── server-cert.pem
 │   └── server-key.pem
-├── src/
-│   ├── common.h
-│   ├── server.c
-│   └── client.c
+├── common.h
+├── server.c
+├── client.c
 ├── .gitignore
 └── README.md
 ```
