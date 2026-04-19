@@ -1,0 +1,4 @@
+authorityKeyIdentifier=keyid,issuer
+subjectKeyIdentifier=hash
+basicConstraints=CA:FALSE
+subjectAltName=IP:10.178.59.27

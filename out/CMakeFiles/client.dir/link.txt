@@ -1,0 +1,1 @@
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/client.dir/link.d CMakeFiles/client.dir/client.c.o -o client  -Wl,-rpath,/usr/local/lib /usr/local/lib/libwolfssl.so
