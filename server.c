@@ -63,7 +63,7 @@ int main(void)
     }
 
     /*Load server certs*/
-    if (int err_code = wolfSSL_CTX_use_certificate_file(ctx, CERT_FILE, SSL_FILETYPE_PEM)
+    if (wolfSSL_CTX_use_certificate_file(ctx, CERT_FILE, SSL_FILETYPE_PEM)
             != SSL_SUCCESS) {
         fprintf(stderr, "Failed to load cert: %s\n", CERT_FILE);
         ret = EXIT_FAILURE;
